@@ -2,8 +2,9 @@ node {
     stage ('Hello'){
         echo 'Hello World'
     }
-    stage('Git'){
-        git checkout scm
+    stage('Git'){   
+        git credentialsId: 'Jenkins SSH', url: 'git@github.com:JonathanKrogsager/gildedrose.git'
+	git checkout scm
     }
     stage ('Test'){
         sh 'docker run -i --rm --name my-maven-project -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3-jdk-8 mvn install'
@@ -21,3 +22,4 @@ node {
         archiveArtifacts '**/target/gildedrose-*.jar'
     }
 }
+
